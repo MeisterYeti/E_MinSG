@@ -27,6 +27,10 @@ Type * E_ImportContext::getTypeObject(){
 void E_ImportContext::init(EScript::Namespace & lib) {
 	EScript::Type * typeObject = getTypeObject();
 	declareConstant(&lib,getClassName(),typeObject);
+	
+	//! [ESMF] self ImportContext.addSearchPath( String );
+	ES_MFUN(typeObject,ImportContext,"addSearchPath",1,1,(thisObj->addSearchPath(parameter[0].toString()),thisEObj))
+	
 }
 
 }
