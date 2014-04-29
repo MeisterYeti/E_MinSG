@@ -62,6 +62,13 @@
 #include "ThesisJonas/E_Preprocessor.h"
 #endif /* MINSG_EXT_THESISJONAS */
 
+// [ext:ThesisSascha]
+#ifdef MINSG_EXT_THESISSASCHA
+//#include "ThesisSascha/E_Renderer.h"
+#include "ThesisSascha/E_Preprocessor.h"
+#include "ThesisSascha/E_SurfelManager.h"
+#endif /* MINSG_EXT_THESISSASCHA */
+
 // [ext:Triangulation]
 #ifdef MINSG_EXT_TRIANGULATION
 #include "Triangulation/E_Delaunay2d.h"
@@ -487,6 +494,17 @@ void init_ext(EScript::Namespace * /*globals*/,EScript::Namespace * lib) {
 		ThesisJonas::E_Preprocessor::init(*ns);
 	}
 #endif /* MINSG_EXT_THESISJONAS */
+
+	// [ThesisSascha]
+#ifdef MINSG_EXT_THESISSASCHA
+	{
+		EScript::Namespace * ns = new EScript::Namespace();
+		declareConstant(lib, "ThesisSascha", ns);
+		ThesisSascha::E_SurfelManager::init(*ns);
+		ThesisSascha::E_Preprocessor::init(*ns);
+		//ThesisSascha::E_Renderer::init(*ns);
+	}
+#endif /* MINSG_EXT_THESISSASCHA */
 
 	// [ext:TreeSync]
 #ifdef MINSG_EXT_TREE_SYNC
