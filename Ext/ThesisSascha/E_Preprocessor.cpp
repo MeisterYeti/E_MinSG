@@ -36,10 +36,10 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 	ES_CTOR(typeObject,1,1,
 				new Preprocessor(parameter[0].to<SurfelManager*>(rt)))
 
-	// void initialize(const Util::FileName& helperShader, const Util::FileName& positionShader, const Util::FileName& normalShader, const Util::FileName& colorShader, const Util::FileName& sizeShader)
-	//! [ESMF] self Preprocessor.initialize(p0,p1,p2,p3,p4)
-	ES_MFUN(typeObject,Preprocessor,"initialize",5,5,
-				(thisObj->initialize(FileName(parameter[0].toString()),FileName(parameter[1].toString()),FileName(parameter[2].toString()),FileName(parameter[3].toString()),FileName(parameter[4].toString())),thisEObj))
+	// void initShader(const Util::FileName& helperShader, const Util::FileName& positionShader, const Util::FileName& normalShader, const Util::FileName& colorShader, const Util::FileName& sizeShader)
+	//! [ESMF] self Preprocessor.initShader(p0,p1,p2,p3,p4)
+	ES_MFUN(typeObject,Preprocessor,"initShader",5,5,
+				(thisObj->initShaders(FileName(parameter[0].toString()),FileName(parameter[1].toString()),FileName(parameter[2].toString()),FileName(parameter[3].toString()),FileName(parameter[4].toString())),thisEObj))
 
 	// void process(FrameContext& frameContext, Node* root)
 	//! [ESMF] self Preprocessor.process(p0,p1)
