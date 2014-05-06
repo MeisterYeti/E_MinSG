@@ -152,6 +152,7 @@ add_library(E_MinSG
 	Ext/ThesisJonas/E_Renderer.cpp
 	Ext/ThesisSascha/E_SurfelManager.cpp
 	Ext/ThesisSascha/E_Preprocessor.cpp
+	Ext/ThesisSascha/E_Renderer.cpp
 	Ext/Tools/E_DebugCamera.cpp
 	Ext/Tools/E_StatChart.cpp
 	Ext/TreeBuilder/E_TreeBuilder.cpp
