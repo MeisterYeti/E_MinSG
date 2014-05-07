@@ -4,11 +4,37 @@
 #include <EScript/Basics.h>
 #include <EScript/StdObjects.h>
 
+#include <Util/StringIdentifier.h>
+#include <Util/GenericAttribute.h>
 #include <Util/IO/FileName.h>
+#include <Util/StringUtils.h>
+
+#include <E_Util/E_Utils.h>
 
 namespace E_MinSG{
 namespace ThesisSascha{
+using namespace Util;
+using namespace E_Util;
 
+typedef WrapperAttribute<StringIdentifier> StringIDAttribute_t;
+
+const std::string GAStringIdentifierHeader("$[StringId]");
+class StringIdAttrConverter : public E_Utils::AbstractGenericAttributeConverter{
+	public:
+
+	virtual ~StringIdAttrConverter(){}
+	EScript::String * convertToEScript(const GenericAttribute * const attribute) override {
+		const StringIDAttribute_t * objContainer = dynamic_cast<const StringIDAttribute_t *> (attribute);
+		return objContainer == nullptr ? nullptr : EScript::create(GAStringIdentifierHeader + objContainer->get().toString());
+	}
+
+	GenericAttribute * convertFromEScript(const EScript::ObjPtr & object) override {
+		const std::string & s = object.toString();
+		if(!StringUtils::beginsWith(s.c_str(), GAStringIdentifierHeader.c_str()))
+			return nullptr;
+		return GenericAttribute::createUndefined(StringIdentifier(s.substr(GAStringIdentifierHeader.length())));
+	}
+};
 
 //! (static)
 EScript::Type * E_SurfelManager::getTypeObject() {
@@ -29,6 +55,10 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_CTOR(typeObject,1,1,
 				new SurfelManager(Util::FileName(parameter[0].toString())))
 
+	ES_MFUN(typeObject,SurfelManager,"update",0,0,
+				(thisObj->update(),thisEObj))
+
+	E_Utils::registerConverter(new StringIdAttrConverter());
 }
 }
 
