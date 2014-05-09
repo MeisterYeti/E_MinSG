@@ -1,6 +1,7 @@
 #ifdef MINSG_EXT_THESISSASCHA
 
 #include "E_SurfelManager.h"
+#include "E_Preprocessor.h"
 #include <EScript/Basics.h>
 #include <EScript/StdObjects.h>
 
@@ -57,6 +58,9 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 
 	ES_MFUN(typeObject,SurfelManager,"update",0,0,
 				(thisObj->update(),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"getPreprocessor",0,0,
+				EScript::create(thisObj->getPreprocessor()))
 
 	E_Utils::registerConverter(new StringIdAttrConverter());
 }
