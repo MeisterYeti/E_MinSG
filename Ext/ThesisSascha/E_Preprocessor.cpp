@@ -31,11 +31,6 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 	using namespace MinSG;
 	using namespace MinSG::ThesisSascha;
 
-	// Preprocessor(SurfelManager* manager)
-	//! [ESF] new Preprocessor(p0)
-	ES_CTOR(typeObject,1,1,
-				new Preprocessor(parameter[0].to<SurfelManager*>(rt)))
-
 	// void initShader(const Util::FileName& helperShader, const Util::FileName& positionShader, const Util::FileName& normalShader, const Util::FileName& colorShader, const Util::FileName& sizeShader)
 	//! [ESMF] self Preprocessor.initShader(p0,p1,p2,p3,p4)
 	ES_MFUN(typeObject,Preprocessor,"initShader",5,5,
