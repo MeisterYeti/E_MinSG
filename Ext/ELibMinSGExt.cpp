@@ -64,10 +64,7 @@
 
 // [ext:ThesisSascha]
 #ifdef MINSG_EXT_THESISSASCHA
-//#include "ThesisSascha/E_Renderer.h"
-#include "ThesisSascha/E_Preprocessor.h"
-#include "ThesisSascha/E_SurfelManager.h"
-#include "ThesisSascha/E_Renderer.h"
+#include "ThesisSascha/E_ThesisSascha.h"
 #endif /* MINSG_EXT_THESISSASCHA */
 
 // [ext:Triangulation]
@@ -499,11 +496,7 @@ void init_ext(EScript::Namespace * /*globals*/,EScript::Namespace * lib) {
 	// [ThesisSascha]
 #ifdef MINSG_EXT_THESISSASCHA
 	{
-		EScript::Namespace * ns = new EScript::Namespace();
-		declareConstant(lib, "ThesisSascha", ns);
-		ThesisSascha::E_SurfelManager::init(*ns);
-		ThesisSascha::E_Preprocessor::init(*ns);
-		ThesisSascha::E_Renderer::init(*ns);
+		E_MinSG::ThesisSascha::init(*lib);
 	}
 #endif /* MINSG_EXT_THESISSASCHA */
 
