@@ -14,6 +14,8 @@
 namespace E_MinSG{
 namespace ThesisSascha{
 
+//! (static)
+E_Util::E_ObjectFactory<MinSG::ThesisSascha::Preprocessor,E_Preprocessor> E_Preprocessor::factorySystem;
 
 //! (static)
 EScript::Type * E_Preprocessor::getTypeObject() {
@@ -26,6 +28,7 @@ EScript::Type * E_Preprocessor::getTypeObject() {
 void E_Preprocessor::init(EScript::Namespace & lib) {
 	EScript::Type * typeObject = E_Preprocessor::getTypeObject();
 	declareConstant(&lib,getClassName(),typeObject);
+	addFactory<MinSG::ThesisSascha::Preprocessor,E_Preprocessor>();
 
 	using namespace Util;
 	using namespace MinSG;
@@ -41,6 +44,25 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,Preprocessor,"process",2,2,
 				(thisObj->process(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt)),thisEObj))
 
+	{
+		struct ScriptedFunction{
+			EScript::Runtime & rt;
+			Preprocessor * owner;
+			ScriptedFunction(EScript::Runtime & _rt, Preprocessor * _owner) : rt(_rt), owner(_owner){}
+			bool operator()(Node * node){
+				static const EScript::StringId handlerId("abortUpdate");
+				EScript::ObjRef result = EScript::callMemberFunction(rt,EScript::create(owner),handlerId,
+															EScript::ParameterValues(EScript::create(node)));
+				return result.toBool(true);
+			}
+		};
+
+		ES_MFUN(typeObject,Preprocessor,"enableAbortUpdateFn",0,0,
+					(thisObj->setAbortUpdateFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
+	}
+
+	ES_MFUN(typeObject,Preprocessor,"updateSurfels",2,2,
+				(thisObj->updateSurfels(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt)),thisEObj))
 }
 }
 
