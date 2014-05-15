@@ -41,8 +41,8 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 
 	// void process(FrameContext& frameContext, Node* root)
 	//! [ESMF] self Preprocessor.process(p0,p1)
-	ES_MFUN(typeObject,Preprocessor,"process",2,2,
-				(thisObj->process(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt)),thisEObj))
+	ES_MFUN(typeObject,Preprocessor,"process",2,3,
+				(thisObj->process(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt),parameter[2].toBool(true)),thisEObj))
 
 	{
 		struct ScriptedFunction{
