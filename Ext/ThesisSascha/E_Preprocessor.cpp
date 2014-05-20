@@ -49,10 +49,10 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 			EScript::Runtime & rt;
 			Preprocessor * owner;
 			ScriptedFunction(EScript::Runtime & _rt, Preprocessor * _owner) : rt(_rt), owner(_owner){}
-			bool operator()(Node * node){
+			bool operator()(Node * node, float coverage){
 				static const EScript::StringId handlerId("abortUpdate");
 				EScript::ObjRef result = EScript::callMemberFunction(rt,EScript::create(owner),handlerId,
-															EScript::ParameterValues(EScript::create(node)));
+															EScript::ParameterValues(EScript::create(node), EScript::Number::create(coverage)));
 				return result.toBool(true);
 			}
 		};
@@ -61,8 +61,8 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 					(thisObj->setAbortUpdateFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
 	}
 
-	ES_MFUN(typeObject,Preprocessor,"updateSurfels",2,2,
-				(thisObj->updateSurfels(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt)),thisEObj))
+	ES_MFUN(typeObject,Preprocessor,"updateSurfels",2,3,
+				(thisObj->updateSurfels(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt), 1.0f, parameter[2].toBool(false)),thisEObj))
 }
 }
 

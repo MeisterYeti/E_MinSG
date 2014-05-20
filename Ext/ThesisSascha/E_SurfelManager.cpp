@@ -53,14 +53,17 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	
 	// SurfelManager(const Util::FileName& basePath)
 	//! [ESF] new SurfelManager(p0)
-	ES_CTOR(typeObject,1,1,
-				new SurfelManager(Util::FileName(parameter[0].toString())))
+	ES_CTOR(typeObject,2,2,
+				new SurfelManager(Util::FileName(parameter[0].toString()), parameter[1].toUInt()))
 
 	ES_MFUN(typeObject,SurfelManager,"update",0,0,
 				(thisObj->update(),thisEObj))
 
 	ES_MFUN(typeObject,SurfelManager,"getPreprocessor",0,0,
 				EScript::create(thisObj->getPreprocessor()))
+
+	ES_MFUN(typeObject,SurfelManager,"setBasePath",1,1,
+				(thisObj->setBasePath(parameter[0].toString()),thisEObj))
 
 	E_Utils::registerConverter(new StringIdAttrConverter());
 }
