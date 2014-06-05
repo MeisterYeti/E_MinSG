@@ -35,6 +35,11 @@ void E_Renderer::init(EScript::Namespace & lib) {
 
 	declareConstant(&lib, E_Renderer::getClassName(), getTypeObject());
 
+	declareConstant(getTypeObject(),"SKIP",EScript::Number::create(static_cast<int>(Renderer::Skip)));
+	declareConstant(getTypeObject(),"SKIP_CHILDREN",EScript::Number::create(static_cast<int>(Renderer::SkipChildren)));
+	declareConstant(getTypeObject(),"REFINE_AND_SKIP",EScript::Number::create(static_cast<int>(Renderer::RefineAndSkip)));
+	declareConstant(getTypeObject(),"REFINE_AND_CONTINUE",EScript::Number::create(static_cast<int>(Renderer::RefineAndContinue)));
+
 	addFactory<Renderer,E_Renderer>();
 
 	// SurfelRenderer(Util::StringIdentifier newChannel = MinSG::FrameContext::DEFAULT_CHANNEL)
@@ -46,38 +51,33 @@ void E_Renderer::init(EScript::Namespace & lib) {
 			return EScript::create(new Renderer(parameter[0].to<SurfelManager*>(rt),parameter[1].to<std::string>(rt)));
 	})
 
-	{
-		struct ScriptedFunction{
-			EScript::Runtime & rt;
-			Renderer * owner;
-			ScriptedFunction(EScript::Runtime & _rt, Renderer * _owner) : rt(_rt), owner(_owner){}
-			float operator()(Node * node){
-				static const EScript::StringId handlerId("transitionStart");
-				EScript::ObjRef result = EScript::callMemberFunction(rt,EScript::create(owner),handlerId,
-															EScript::ParameterValues(EScript::create(node)));
-				return result.toFloat(200);
-			}
-		};
+	ES_MFUN(getTypeObject(),Renderer,"setAsync",1,1,
+				(thisObj->setAsync(parameter[0].toBool(false)),thisEObj))
 
-		ES_MFUN(getTypeObject(),Renderer,"enableTransitionStartFn",0,0,
-					(thisObj->setTransitionStartFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
-	}
+	ES_MFUN(getTypeObject(),Renderer,"isAsync",0,0,
+				EScript::Bool::create(thisObj->isAsync()))
+
+	ES_MFUN(getTypeObject(),Renderer,"setImmediate",1,1,
+				(thisObj->setImmediate(parameter[0].toBool(false)),thisEObj))
+
+	ES_MFUN(getTypeObject(),Renderer,"isImmediate",0,0,
+				EScript::Bool::create(thisObj->isImmediate()))
 
 	{
 		struct ScriptedFunction{
 			EScript::Runtime & rt;
 			Renderer * owner;
 			ScriptedFunction(EScript::Runtime & _rt, Renderer * _owner) : rt(_rt), owner(_owner){}
-			float operator()(Node * node){
-				static const EScript::StringId handlerId("transitionEnd");
+			Renderer::RefineNode_t operator()(Node * node){
+				static const EScript::StringId handlerId("refineNode");
 				EScript::ObjRef result = EScript::callMemberFunction(rt,EScript::create(owner),handlerId,
 															EScript::ParameterValues(EScript::create(node)));
-				return result.toFloat(100);
+				return static_cast<Renderer::RefineNode_t>(result.toInt(0));
 			}
 		};
 
-		ES_MFUN(getTypeObject(),Renderer,"enableTransitionEndFn",0,0,
-					(thisObj->setTransitionEndFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
+		ES_MFUN(getTypeObject(),Renderer,"enableRefineFn",0,0,
+					(thisObj->setRefineFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
 	}
 
 	{

@@ -11,6 +11,7 @@
 #include <Util/StringUtils.h>
 
 #include <E_Util/E_Utils.h>
+#include <E_MinSG/Core/Nodes/E_Node.h>
 
 namespace E_MinSG{
 namespace ThesisSascha{
@@ -49,6 +50,7 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	EScript::Type * typeObject = E_SurfelManager::getTypeObject();
 	declareConstant(&lib,getClassName(),typeObject);
 
+	using namespace MinSG;
 	using namespace MinSG::ThesisSascha;
 	
 	// SurfelManager(const Util::FileName& basePath)
@@ -64,6 +66,9 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 
 	ES_MFUN(typeObject,SurfelManager,"setBasePath",1,1,
 				(thisObj->setBasePath(parameter[0].toString()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"isCached",1,1,
+				EScript::Bool::create(thisObj->isCached(parameter[0].to<Node*>(rt))))
 
 	E_Utils::registerConverter(new StringIdAttrConverter());
 }
