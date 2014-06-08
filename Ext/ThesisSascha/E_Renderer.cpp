@@ -63,6 +63,12 @@ void E_Renderer::init(EScript::Namespace & lib) {
 	ES_MFUN(getTypeObject(),Renderer,"isImmediate",0,0,
 				EScript::Bool::create(thisObj->isImmediate()))
 
+	ES_MFUN(getTypeObject(),Renderer,"setTimeLimit",1,1,
+				(thisObj->setTimeLimit(parameter[0].toUInt(0)),thisEObj))
+
+	ES_MFUN(getTypeObject(),Renderer,"getTimeLimit",0,0,
+				EScript::Number::create(thisObj->getTimeLimit()))
+
 	{
 		struct ScriptedFunction{
 			EScript::Runtime & rt;
