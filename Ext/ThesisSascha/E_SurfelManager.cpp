@@ -70,6 +70,41 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"isCached",1,1,
 				EScript::Bool::create(thisObj->isCached(parameter[0].to<Node*>(rt))))
 
+	ES_MFUN(typeObject,SurfelManager,"getUsedMemory",0,0,
+				EScript::Number::create(thisObj->getUsedMemory()))
+
+	ES_MFUN(typeObject,SurfelManager,"getMaxMemory",0,0,
+				EScript::Number::create(thisObj->getMaxMemory()))
+
+	ES_MFUN(typeObject,SurfelManager,"setMaxMemory",1,1,
+				(thisObj->setMaxMemory(parameter[0].toUInt()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"getMaxJobs",0,0,
+				EScript::Number::create(thisObj->getMaxJobs()))
+
+	ES_MFUN(typeObject,SurfelManager,"setMaxJobs",1,1,
+				(thisObj->setMaxJobs(parameter[0].toUInt()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"getMemoryLoadFactor",0,0,
+				EScript::Number::create(thisObj->getMemoryLoadFactor()))
+
+	ES_MFUN(typeObject,SurfelManager,"setMemoryLoadFactor",1,1,
+				(thisObj->setMemoryLoadFactor(parameter[0].toFloat()),thisEObj))
+
+	ES_MFUNCTION(typeObject,SurfelManager,"setPriorityOrder",1,1,{
+		EScript::Array * a=parameter[0].toType<EScript::Array>();
+		if(!a){
+			rt.setException("SurfelManager: Wrong argument for setPriorityOrder.");
+			return thisEObj;
+		}
+		std::vector<uint32_t> v;
+		for(const auto & p : *a) {
+			v.push_back(p.toUInt());
+		}
+		thisObj->setPriorityOrder(v);
+		return thisEObj;
+	})
+
 	E_Utils::registerConverter(new StringIdAttrConverter());
 }
 }
