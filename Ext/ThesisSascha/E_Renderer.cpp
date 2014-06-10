@@ -69,6 +69,12 @@ void E_Renderer::init(EScript::Namespace & lib) {
 	ES_MFUN(getTypeObject(),Renderer,"getTimeLimit",0,0,
 				EScript::Number::create(thisObj->getTimeLimit()))
 
+	ES_MFUN(getTypeObject(),Renderer,"getFrameTime",0,0,
+				EScript::Number::create(thisObj->getFrameTime()))
+
+	ES_MFUN(getTypeObject(),Renderer,"getDebugTime",0,0,
+				EScript::Number::create(thisObj->getDebugTime()))
+
 	{
 		struct ScriptedFunction{
 			EScript::Runtime & rt;
