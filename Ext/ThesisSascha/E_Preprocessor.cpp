@@ -9,6 +9,8 @@
 #include <E_MinSG/Core/Nodes/E_Node.h>
 #include <E_MinSG/Core/E_FrameContext.h>
 
+#include <E_Rendering/Shader/E_Shader.h>
+
 #include <Util/IO/FileName.h>
 
 namespace E_MinSG{
@@ -34,10 +36,10 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 	using namespace MinSG;
 	using namespace MinSG::ThesisSascha;
 
-	// void initShader(const Util::FileName& helperShader, const Util::FileName& positionShader, const Util::FileName& normalShader, const Util::FileName& colorShader, const Util::FileName& sizeShader)
-	//! [ESMF] self Preprocessor.initShader(p0,p1,p2,p3,p4)
-	ES_MFUN(typeObject,Preprocessor,"initShader",5,5,
-				(thisObj->initShaders(FileName(parameter[0].toString()),FileName(parameter[1].toString()),FileName(parameter[2].toString()),FileName(parameter[3].toString()),FileName(parameter[4].toString())),thisEObj))
+	// void initShader(Rendering::Shader* mrtShader, Rendering::Shader* sizeShader)
+	//! [ESMF] self Preprocessor.initShader(p0,p1)
+	ES_MFUN(typeObject,Preprocessor,"initShader",2,2,
+				(thisObj->initShaders(parameter[0].to<Rendering::Shader*>(rt), parameter[1].to<Rendering::Shader*>(rt)),thisEObj))
 
 	// void process(FrameContext& frameContext, Node* root)
 	//! [ESMF] self Preprocessor.process(p0,p1)
