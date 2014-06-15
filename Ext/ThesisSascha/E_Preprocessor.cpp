@@ -63,8 +63,41 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 					(thisObj->setAbortUpdateFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
 	}
 
+	{
+		struct ScriptedFunction{
+			EScript::Runtime & rt;
+			Preprocessor * owner;
+			ScriptedFunction(EScript::Runtime & _rt, Preprocessor * _owner) : rt(_rt), owner(_owner){}
+			void operator()(uint32_t done, uint32_t maxCount){
+				static const EScript::StringId handlerId("updateProgress");
+				EScript::ObjRef result = EScript::callMemberFunction(rt,EScript::create(owner),handlerId,
+															EScript::ParameterValues(EScript::Number::create(done), EScript::Number::create(maxCount)));
+			}
+		};
+
+		ES_MFUN(typeObject,Preprocessor,"enableUpdateProgressFn",0,0,
+					(thisObj->setUpdateProgressFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
+	}
+
 	ES_MFUN(typeObject,Preprocessor,"updateSurfels",2,3,
 				(thisObj->updateSurfels(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt), 1.0f, parameter[2].toBool(false)),thisEObj))
+
+
+
+	//! [ESMF] Number Preprocessor.getReusalRate()
+	ES_MFUN(typeObject,const Preprocessor,"getReusalRate",0,0,			thisObj->getReusalRate())
+
+	//! [ESMF] Number Preprocessor.getMaxAbsSurfels()
+	ES_MFUN(typeObject,const Preprocessor,"getMaxAbsSurfels",0,0,		thisObj->getMaxAbsSurfels())
+
+	//! [ESMF] self Preprocessor.setMaxAbsSurfels(Number)
+	ES_MFUN(typeObject,Preprocessor,"setMaxAbsSurfels",1,1,				(thisObj->setMaxAbsSurfels(parameter[0].toUInt()),thisEObj))
+
+	//! [ESMF] self Preprocessor.setReusalRate(Number)
+	ES_MFUN(typeObject,Preprocessor,"setReusalRate",1,1,					(thisObj->setReusalRate(parameter[0].toFloat()),thisEObj))
+
+	//! [ESMF] self Preprocessor.setMaxComplexity(Number)
+	ES_MFUN(typeObject,Preprocessor,"setMaxComplexity",1,1,				(thisObj->setMaxComplexity(parameter[0].toUInt()),thisEObj))
 }
 }
 
