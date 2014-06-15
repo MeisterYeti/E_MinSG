@@ -75,6 +75,9 @@ void E_Renderer::init(EScript::Namespace & lib) {
 	ES_MFUN(getTypeObject(),Renderer,"getDebugTime",0,0,
 				EScript::Number::create(thisObj->getDebugTime()))
 
+	ES_MFUN(getTypeObject(),Renderer,"setWait",1,1,
+				(thisObj->setWait(parameter[0].toBool(false)),thisEObj))
+
 	{
 		struct ScriptedFunction{
 			EScript::Runtime & rt;
