@@ -85,6 +85,9 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"setMaxJobs",1,1,
 				(thisObj->setMaxJobs(parameter[0].toUInt()),thisEObj))
 
+	ES_MFUN(typeObject,SurfelManager,"setMaxJobFlushTime",1,1,
+				(thisObj->setMaxJobFlushTime(parameter[0].toUInt()),thisEObj))
+
 	ES_MFUN(typeObject,SurfelManager,"getMemoryLoadFactor",0,0,
 				EScript::Number::create(thisObj->getMemoryLoadFactor()))
 
