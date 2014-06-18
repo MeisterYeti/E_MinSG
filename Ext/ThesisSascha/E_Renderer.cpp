@@ -69,6 +69,12 @@ void E_Renderer::init(EScript::Namespace & lib) {
 	ES_MFUN(getTypeObject(),Renderer,"getTimeLimit",0,0,
 				EScript::Number::create(thisObj->getTimeLimit()))
 
+	ES_MFUN(getTypeObject(),Renderer,"setMaxComplexity",1,1,
+				(thisObj->setMaxComplexity(parameter[0].toUInt(0)),thisEObj))
+
+	ES_MFUN(getTypeObject(),Renderer,"getMaxComplexity",0,0,
+				EScript::Number::create(thisObj->getMaxComplexity()))
+
 	ES_MFUN(getTypeObject(),Renderer,"getFrameTime",0,0,
 				EScript::Number::create(thisObj->getFrameTime()))
 
