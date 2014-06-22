@@ -75,11 +75,11 @@ void E_Renderer::init(EScript::Namespace & lib) {
 	ES_MFUN(getTypeObject(),Renderer,"getMaxComplexity",0,0,
 				EScript::Number::create(thisObj->getMaxComplexity()))
 
-	ES_MFUN(getTypeObject(),Renderer,"getFrameTime",0,0,
-				EScript::Number::create(thisObj->getFrameTime()))
+	ES_MFUN(getTypeObject(),Renderer,"getRenderTime",0,0,
+				EScript::Number::create(thisObj->getRenderTime()))
 
-	ES_MFUN(getTypeObject(),Renderer,"getDebugTime",0,0,
-				EScript::Number::create(thisObj->getDebugTime()))
+	ES_MFUN(getTypeObject(),Renderer,"getTraversalTime",0,0,
+				EScript::Number::create(thisObj->getTraversalTime()))
 
 	ES_MFUN(getTypeObject(),Renderer,"setWait",1,1,
 				(thisObj->setWait(parameter[0].toBool(false)),thisEObj))
