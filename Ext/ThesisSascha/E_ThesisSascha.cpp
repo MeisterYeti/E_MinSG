@@ -62,6 +62,8 @@ void init(EScript::Namespace & lib) {
 			Util::FileUtils::remove(Util::FileName(parameter[0].toString()));
 		return EScript::Bool::create(result);
 	})
+	//! [ESF] Bool MinSG.ThesisSascha.removeFile(String, String)
+	ES_FUN(ns, "removeFile", 1, 1, EScript::Bool::create(Util::FileUtils::remove(Util::FileName(parameter[0].toString()))))
 }
 
 }
