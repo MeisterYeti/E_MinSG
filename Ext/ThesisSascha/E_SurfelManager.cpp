@@ -55,8 +55,8 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	
 	// SurfelManager(const Util::FileName& basePath)
 	//! [ESF] new SurfelManager(p0)
-	ES_CTOR(typeObject,2,2,
-				new SurfelManager(Util::FileName(parameter[0].toString()), parameter[1].toUInt()))
+	ES_CTOR(typeObject,3,3,
+				new SurfelManager(Util::FileName(parameter[0].toString()), parameter[1].toUInt(), parameter[2].toUInt()))
 
 	ES_MFUN(typeObject,SurfelManager,"update",0,0,
 				(thisObj->update(),thisEObj))
@@ -75,6 +75,9 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 
 	ES_MFUN(typeObject,SurfelManager,"getMaxMemory",0,0,
 				EScript::Number::create(thisObj->getMaxMemory()))
+
+	ES_MFUN(typeObject,SurfelManager,"setMaxReservedMemory",1,1,
+				(thisObj->setMaxReservedMemory(parameter[0].toUInt()),thisEObj))
 
 	ES_MFUN(typeObject,SurfelManager,"setMaxMemory",1,1,
 				(thisObj->setMaxMemory(parameter[0].toUInt()),thisEObj))
