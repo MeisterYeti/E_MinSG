@@ -61,6 +61,12 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"update",0,0,
 				(thisObj->update(),thisEObj))
 
+	ES_MFUN(typeObject,SurfelManager,"clear",0,0,
+				(thisObj->clear(),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"flush",0,0,
+				(thisObj->flush(),thisEObj))
+
 	ES_MFUN(typeObject,SurfelManager,"getPreprocessor",0,0,
 				EScript::create(thisObj->getPreprocessor()))
 
@@ -70,14 +76,23 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"isCached",1,1,
 				EScript::Bool::create(thisObj->isCached(parameter[0].to<Node*>(rt))))
 
+	ES_MFUN(typeObject,SurfelManager,"getPending",0,0,
+				EScript::Number::create(thisObj->getPending()))
+
 	ES_MFUN(typeObject,SurfelManager,"getUsedMemory",0,0,
 				EScript::Number::create(thisObj->getUsedMemory()))
+
+	ES_MFUN(typeObject,SurfelManager,"getReservedMemory",0,0,
+				EScript::Number::create(thisObj->getReservedMemory()))
 
 	ES_MFUN(typeObject,SurfelManager,"getMaxMemory",0,0,
 				EScript::Number::create(thisObj->getMaxMemory()))
 
 	ES_MFUN(typeObject,SurfelManager,"setMaxReservedMemory",1,1,
 				(thisObj->setMaxReservedMemory(parameter[0].toUInt()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"setMaxPerFrameRequestMem",1,1,
+				(thisObj->setMaxPerFrameRequestMem(parameter[0].toUInt()),thisEObj))
 
 	ES_MFUN(typeObject,SurfelManager,"setMaxMemory",1,1,
 				(thisObj->setMaxMemory(parameter[0].toUInt()),thisEObj))
@@ -88,6 +103,9 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"setMaxJobs",1,1,
 				(thisObj->setMaxJobs(parameter[0].toUInt()),thisEObj))
 
+	ES_MFUN(typeObject,SurfelManager,"setMaxPending",1,1,
+				(thisObj->setMaxPending(parameter[0].toUInt()),thisEObj))
+
 	ES_MFUN(typeObject,SurfelManager,"setMaxJobFlushTime",1,1,
 				(thisObj->setMaxJobFlushTime(parameter[0].toUInt()),thisEObj))
 
@@ -96,6 +114,8 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 
 	ES_MFUN(typeObject,SurfelManager,"setMemoryLoadFactor",1,1,
 				(thisObj->setMemoryLoadFactor(parameter[0].toFloat()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"getStats",0,0,E_Util::E_Utils::convertGenericAttributeToEScriptObject(thisObj->getStats()))
 
 	ES_MFUNCTION(typeObject,SurfelManager,"setPriorityOrder",1,1,{
 		EScript::Array * a=parameter[0].toType<EScript::Array>();

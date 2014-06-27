@@ -45,6 +45,7 @@ void init(EScript::Namespace & lib) {
 	declareConstant(ns, "NODE_COMPLEXITY", EScript::String::create(NODE_COMPLEXITY.toString()));
 	declareConstant(ns, "NODE_LEVEL", EScript::String::create(NODE_LEVEL.toString()));
 	declareConstant(ns, "NODE_HANDLED", EScript::String::create(NODE_HANDLED.toString()));
+	declareConstant(ns, "NODE_RENDERED", EScript::String::create(NODE_HANDLED.toString()));
 	declareConstant(ns, "CHILDREN_LOADED", EScript::String::create(CHILDREN_LOADED.toString()));
 
 	//! [ESF] Void MinSG.ThesisSascha.pushImportHandler(SurfelManager)
