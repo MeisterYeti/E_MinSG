@@ -76,38 +76,20 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"isCached",1,1,
 				EScript::Bool::create(thisObj->isCached(parameter[0].to<Node*>(rt))))
 
-	ES_MFUN(typeObject,SurfelManager,"getPending",0,0,
-				EScript::Number::create(thisObj->getPending()))
-
-	ES_MFUN(typeObject,SurfelManager,"getUsedMemory",0,0,
-				EScript::Number::create(thisObj->getUsedMemory()))
-
-	ES_MFUN(typeObject,SurfelManager,"getReservedMemory",0,0,
-				EScript::Number::create(thisObj->getReservedMemory()))
-
 	ES_MFUN(typeObject,SurfelManager,"getMaxMemory",0,0,
 				EScript::Number::create(thisObj->getMaxMemory()))
 
-	ES_MFUN(typeObject,SurfelManager,"setMaxReservedMemory",1,1,
-				(thisObj->setMaxReservedMemory(parameter[0].toUInt()),thisEObj))
-
-	ES_MFUN(typeObject,SurfelManager,"setMaxPerFrameRequestMem",1,1,
-				(thisObj->setMaxPerFrameRequestMem(parameter[0].toUInt()),thisEObj))
+	ES_MFUN(typeObject,SurfelManager,"setRequestLimit",1,1,
+				(thisObj->setRequestLimit(parameter[0].toUInt()),thisEObj))
 
 	ES_MFUN(typeObject,SurfelManager,"setMaxMemory",1,1,
 				(thisObj->setMaxMemory(parameter[0].toUInt()),thisEObj))
 
-	ES_MFUN(typeObject,SurfelManager,"getMaxJobs",0,0,
-				EScript::Number::create(thisObj->getMaxJobs()))
-
-	ES_MFUN(typeObject,SurfelManager,"setMaxJobs",1,1,
-				(thisObj->setMaxJobs(parameter[0].toUInt()),thisEObj))
+	ES_MFUN(typeObject,SurfelManager,"setFrameRequestLimit",1,1,
+				(thisObj->setFrameRequestLimit(parameter[0].toUInt()),thisEObj))
 
 	ES_MFUN(typeObject,SurfelManager,"setMaxPending",1,1,
 				(thisObj->setMaxPending(parameter[0].toUInt()),thisEObj))
-
-	ES_MFUN(typeObject,SurfelManager,"setMaxJobFlushTime",1,1,
-				(thisObj->setMaxJobFlushTime(parameter[0].toUInt()),thisEObj))
 
 	ES_MFUN(typeObject,SurfelManager,"getMemoryLoadFactor",0,0,
 				EScript::Number::create(thisObj->getMemoryLoadFactor()))
@@ -115,23 +97,42 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"setMemoryLoadFactor",1,1,
 				(thisObj->setMemoryLoadFactor(parameter[0].toFloat()),thisEObj))
 
+	ES_MFUN(typeObject,SurfelManager,"setSortRequests",1,1,
+				(thisObj->setSortRequests(parameter[0].toBool()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"setMaxIter",1,1,
+				(thisObj->setMaxIter(parameter[0].toUInt()),thisEObj))
+
 	ES_MFUN(typeObject,SurfelManager,"getStats",0,0,E_Util::E_Utils::convertGenericAttributeToEScriptObject(thisObj->getStats()))
 
-	ES_MFUNCTION(typeObject,SurfelManager,"setPriorityOrder",1,1,{
-		EScript::Array * a=parameter[0].toType<EScript::Array>();
-		if(!a){
-			rt.setException("SurfelManager: Wrong argument for setPriorityOrder.");
-			return thisEObj;
-		}
-		std::vector<uint32_t> v;
-		for(const auto & p : *a) {
-			v.push_back(p.toUInt());
-		}
-		thisObj->setPriorityOrder(v);
-		return thisEObj;
-	})
+	{
+		struct ScriptedFunction{
+			EScript::Runtime & rt;
+			SurfelManager * owner;
+			ScriptedFunction(EScript::Runtime & _rt, SurfelManager * _owner) : rt(_rt), owner(_owner){}
+			float operator()(StringIdentifier id, uint32_t lru, uint32_t usage,
+			 				uint32_t memory, uint32_t childCount, float projSize,
+			 				float minDistance, bool isSurfel){
+				static const EScript::StringId handlerId("requestPriorityFn");
+				EScript::ParameterValues params(8);
+				uint32_t i = 0;
+				params.set(i++,EScript::create(id.toString()));
+				params.set(i++,EScript::create(lru));
+				params.set(i++,EScript::create(usage));
+				params.set(i++,EScript::create(memory));
+				params.set(i++,EScript::create(childCount));
+				params.set(i++,EScript::create(projSize));
+				params.set(i++,EScript::create(minDistance));
+				params.set(i++,EScript::create(isSurfel));
+				EScript::ObjRef result = EScript::callMemberFunction(rt,EScript::create(owner),handlerId, params);
+				return result.toFloat(0);
+			}
+		};
 
-	E_Utils::registerConverter(new StringIdAttrConverter());
+		ES_MFUN(getTypeObject(),SurfelManager,"enableRequestPriorityFn",0,0,
+					(thisObj->setRequestPriorityFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
+	}
+
 }
 }
 

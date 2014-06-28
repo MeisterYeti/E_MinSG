@@ -3,8 +3,9 @@
 #ifndef E_MINSG_THESISSASCHA_E_SURFELMANAGER_H_
 #define E_MINSG_THESISSASCHA_E_SURFELMANAGER_H_
 
-#include <EScript/Objects/ReferenceObject.h>
+#include <EScript/Objects/ExtReferenceObject.h>
 #include <MinSG/Ext/ThesisSascha/SurfelManager.h>
+#include <E_Util/E_Utils.h>
 
 
 namespace EScript {
@@ -20,14 +21,14 @@ namespace ThesisSascha{
 		E_SurfelManager ---|> EScript::ReferenceObject<Util::Reference<MinSG::ThesisSascha::SurfelManager> >
 			|
 			--------------> MinSG::ThesisSascha::SurfelManager		*/
-class E_SurfelManager : public EScript::ReferenceObject<Util::Reference<MinSG::ThesisSascha::SurfelManager> > {
+class E_SurfelManager : public EScript::ExtReferenceObject<Util::Reference<MinSG::ThesisSascha::SurfelManager>, EScript::Policies::EqualContent_ComparePolicy,E_Util::Policies::StoreAttrsInAttributeProvider > {
 		ES_PROVIDES_TYPE_NAME(SurfelManager)
 	public:
 		static EScript::Type * getTypeObject();
 		static void init(EScript::Namespace & lib);
 
 		E_SurfelManager(Util::Reference<MinSG::ThesisSascha::SurfelManager> _obj) :
-				ReferenceObject_t(getTypeObject(), std::move(_obj)) {}
+				ExtReferenceObject_t(getTypeObject(), std::move(_obj)) {}
 		virtual ~E_SurfelManager() {}
 
 };
