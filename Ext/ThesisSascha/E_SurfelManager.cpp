@@ -103,6 +103,9 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"setMaxIter",1,1,
 				(thisObj->setMaxIter(parameter[0].toUInt()),thisEObj))
 
+	ES_MFUN(typeObject,SurfelManager,"setMaxFrameTime",1,1,
+				(thisObj->setMaxFrameTime(parameter[0].toUInt()),thisEObj))
+
 	ES_MFUN(typeObject,SurfelManager,"getStats",0,0,E_Util::E_Utils::convertGenericAttributeToEScriptObject(thisObj->getStats()))
 
 	{
