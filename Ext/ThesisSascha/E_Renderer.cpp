@@ -58,6 +58,9 @@ void E_Renderer::init(EScript::Namespace & lib) {
 	ES_MFUN(getTypeObject(),Renderer,"setMinProjSize",1,1,
 				(thisObj->setMinProjSize(parameter[0].toFloat()),thisEObj))
 
+	ES_MFUN(getTypeObject(),Renderer,"sortFront",1,1,
+				(thisObj->sortFront(parameter[0].toBool()),thisEObj))
+
 	/*
 	ES_MFUN(getTypeObject(),Renderer,"setAsync",1,1,
 				(thisObj->setAsync(parameter[0].toBool(false)),thisEObj))
