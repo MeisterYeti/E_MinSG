@@ -79,17 +79,8 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"getMaxMemory",0,0,
 				EScript::Number::create(thisObj->getMaxMemory()))
 
-	ES_MFUN(typeObject,SurfelManager,"setRequestLimit",1,1,
-				(thisObj->setRequestLimit(parameter[0].toUInt()),thisEObj))
-
 	ES_MFUN(typeObject,SurfelManager,"setMaxMemory",1,1,
 				(thisObj->setMaxMemory(parameter[0].toUInt()),thisEObj))
-
-	ES_MFUN(typeObject,SurfelManager,"setFrameRequestLimit",1,1,
-				(thisObj->setFrameRequestLimit(parameter[0].toUInt()),thisEObj))
-
-	ES_MFUN(typeObject,SurfelManager,"setMaxPending",1,1,
-				(thisObj->setMaxPending(parameter[0].toUInt()),thisEObj))
 
 	ES_MFUN(typeObject,SurfelManager,"getMemoryLoadFactor",0,0,
 				EScript::Number::create(thisObj->getMemoryLoadFactor()))
@@ -97,18 +88,25 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"setMemoryLoadFactor",1,1,
 				(thisObj->setMemoryLoadFactor(parameter[0].toFloat()),thisEObj))
 
+
+	ES_MFUN(typeObject,SurfelManager,"setRequestLimit",1,1,
+				(thisObj->setRequestLimit(parameter[0].toUInt()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"setFrameRequestLimit",1,1,
+				(thisObj->setFrameRequestLimit(parameter[0].toUInt()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"setFrameEvictLimit",1,1,
+				(thisObj->setFrameEvictLimit(parameter[0].toUInt()),thisEObj))
+
+	ES_MFUN(typeObject,SurfelManager,"setRequestQueueSize",1,1,
+					(thisObj->setRequestQueueSize(parameter[0].toUInt()),thisEObj))
+
 	ES_MFUN(typeObject,SurfelManager,"setSortRequests",1,1,
 				(thisObj->setSortRequests(parameter[0].toBool()),thisEObj))
 
-	ES_MFUN(typeObject,SurfelManager,"setMaxIter",1,1,
-				(thisObj->setMaxIter(parameter[0].toUInt()),thisEObj))
-
-	ES_MFUN(typeObject,SurfelManager,"setMaxFrameTime",1,1,
-				(thisObj->setMaxFrameTime(parameter[0].toUInt()),thisEObj))
-
 	ES_MFUN(typeObject,SurfelManager,"getStats",0,0,E_Util::E_Utils::convertGenericAttributeToEScriptObject(thisObj->getStats()))
 
-	{
+	/*{
 		struct ScriptedFunction{
 			EScript::Runtime & rt;
 			SurfelManager * owner;
@@ -134,7 +132,7 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 
 		ES_MFUN(getTypeObject(),SurfelManager,"enableRequestPriorityFn",0,0,
 					(thisObj->setRequestPriorityFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
-	}
+	}*/
 
 }
 }

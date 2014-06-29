@@ -28,29 +28,37 @@ EScript::Type * E_Renderer::getTypeObject() {
 
 //! (static) init members
 void E_Renderer::init(EScript::Namespace & lib) {
+	EScript::Type * typeObject = E_Renderer::getTypeObject();
 
 	using namespace Util;
 	using namespace MinSG;
 	using namespace MinSG::ThesisSascha;
 
-	declareConstant(&lib, E_Renderer::getClassName(), getTypeObject());
+	declareConstant(&lib, E_Renderer::getClassName(), typeObject);
 
-	declareConstant(getTypeObject(),"SKIP",EScript::Number::create(static_cast<int>(Renderer::Skip)));
-	declareConstant(getTypeObject(),"SKIP_CHILDREN",EScript::Number::create(static_cast<int>(Renderer::SkipChildren)));
-	declareConstant(getTypeObject(),"REFINE_AND_SKIP",EScript::Number::create(static_cast<int>(Renderer::RefineAndSkip)));
-	declareConstant(getTypeObject(),"REFINE_AND_CONTINUE",EScript::Number::create(static_cast<int>(Renderer::RefineAndContinue)));
+	//declareConstant(getTypeObject(),"SKIP",EScript::Number::create(static_cast<int>(Renderer::Skip)));
+	//declareConstant(getTypeObject(),"SKIP_CHILDREN",EScript::Number::create(static_cast<int>(Renderer::SkipChildren)));
+	//declareConstant(getTypeObject(),"REFINE_AND_SKIP",EScript::Number::create(static_cast<int>(Renderer::RefineAndSkip)));
+	//declareConstant(getTypeObject(),"REFINE_AND_CONTINUE",EScript::Number::create(static_cast<int>(Renderer::RefineAndContinue)));
 
 	addFactory<Renderer,E_Renderer>();
 
 	// SurfelRenderer(Util::StringIdentifier newChannel = MinSG::FrameContext::DEFAULT_CHANNEL)
 	//! [ESF] new SurfelRenderer(p0[,p1])
-	ES_CONSTRUCTOR(getTypeObject(), 1,2, {
+	ES_CONSTRUCTOR(typeObject, 1,2, {
 		if(parameter.count()==1)
 			return EScript::create(new Renderer(parameter[0].to<SurfelManager*>(rt)));
 		else
 			return EScript::create(new Renderer(parameter[0].to<SurfelManager*>(rt),parameter[1].to<std::string>(rt)));
 	})
 
+	ES_MFUN(getTypeObject(),Renderer,"setPointSizeFactor",1,1,
+				(thisObj->setPointSizeFactor(parameter[0].toFloat()),thisEObj))
+
+	ES_MFUN(getTypeObject(),Renderer,"setMinProjSize",1,1,
+				(thisObj->setMinProjSize(parameter[0].toFloat()),thisEObj))
+
+	/*
 	ES_MFUN(getTypeObject(),Renderer,"setAsync",1,1,
 				(thisObj->setAsync(parameter[0].toBool(false)),thisEObj))
 
@@ -140,7 +148,9 @@ void E_Renderer::init(EScript::Namespace & lib) {
 		ES_MFUN(getTypeObject(),Renderer,"enableSizeFn",0,0,
 					(thisObj->setSizeFn(std::move(ScriptedFunction(rt,thisObj))),thisEObj))
 	}
+	*/
 
+	ES_MFUN(typeObject,Renderer,"getStats",0,0,E_Util::E_Utils::convertGenericAttributeToEScriptObject(thisObj->getStats()))
 }
 }
 
