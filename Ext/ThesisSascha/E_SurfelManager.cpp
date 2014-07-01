@@ -67,9 +67,6 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 	ES_MFUN(typeObject,SurfelManager,"flush",0,0,
 				(thisObj->flush(),thisEObj))
 
-	ES_MFUN(typeObject,SurfelManager,"getPreprocessor",0,0,
-				EScript::create(thisObj->getPreprocessor()))
-
 	ES_MFUN(typeObject,SurfelManager,"setBasePath",1,1,
 				(thisObj->setBasePath(parameter[0].toString()),thisEObj))
 
@@ -89,11 +86,11 @@ void E_SurfelManager::init(EScript::Namespace & lib) {
 				(thisObj->setMemoryLoadFactor(parameter[0].toFloat()),thisEObj))
 
 
-	ES_MFUN(typeObject,SurfelManager,"setRequestLimit",1,1,
-				(thisObj->setRequestLimit(parameter[0].toUInt()),thisEObj))
+	ES_MFUN(typeObject,SurfelManager,"setMinReleaseLimit",1,1,
+				(thisObj->setMinReleaseLimit(parameter[0].toUInt()),thisEObj))
 
-	ES_MFUN(typeObject,SurfelManager,"setFrameRequestLimit",1,1,
-				(thisObj->setFrameRequestLimit(parameter[0].toUInt()),thisEObj))
+	ES_MFUN(typeObject,SurfelManager,"setFrameReleaseLimit",1,1,
+				(thisObj->setFrameReleaseLimit(parameter[0].toUInt()),thisEObj))
 
 	ES_MFUN(typeObject,SurfelManager,"setFrameEvictLimit",1,1,
 				(thisObj->setFrameEvictLimit(parameter[0].toUInt()),thisEObj))
