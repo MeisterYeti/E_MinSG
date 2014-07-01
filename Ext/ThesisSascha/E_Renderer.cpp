@@ -52,14 +52,20 @@ void E_Renderer::init(EScript::Namespace & lib) {
 			return EScript::create(new Renderer(parameter[0].to<SurfelManager*>(rt),parameter[1].to<std::string>(rt)));
 	})
 
-	ES_MFUN(getTypeObject(),Renderer,"setPointSizeFactor",1,1,
+	ES_MFUN(typeObject,Renderer,"setPointSizeFactor",1,1,
 				(thisObj->setPointSizeFactor(parameter[0].toFloat()),thisEObj))
 
-	ES_MFUN(getTypeObject(),Renderer,"setMinProjSize",1,1,
+	ES_MFUN(typeObject,Renderer,"setMinProjSize",1,1,
 				(thisObj->setMinProjSize(parameter[0].toFloat()),thisEObj))
 
-	ES_MFUN(getTypeObject(),Renderer,"sortFront",1,1,
+	ES_MFUN(typeObject,Renderer,"setSortFront",1,1,
 				(thisObj->sortFront(parameter[0].toBool()),thisEObj))
+
+	ES_MFUN(typeObject,Renderer,"setUseFrontRenderer",1,1,
+				(thisObj->useFrontRenderer(parameter[0].toBool()),thisEObj))
+
+	ES_MFUN(typeObject,Renderer,"setIncludeDistance",1,1,
+				(thisObj->includeDistance(parameter[0].toBool()),thisEObj))
 
 	/*
 	ES_MFUN(getTypeObject(),Renderer,"setAsync",1,1,
