@@ -1,7 +1,7 @@
 /*
 	This file is part of the E_MinSG library.
 	Copyright (C) 2007-2012 Benjamin Eikel <benjamin@eikel.org>
-	Copyright (C) 2007-2012 Claudius Jähn <claudius@uni-paderborn.de>
+	Copyright (C) 2007-2014 Claudius Jähn <claudius@uni-paderborn.de>
 	Copyright (C) 2007-2012 Ralf Petring <ralf@petring.net>
 
 	This library is subject to the terms of the Mozilla Public License, v. 2.0.
@@ -30,6 +30,7 @@
 // [ext:BlueSurfels]
 #ifdef MINSG_EXT_BLUE_SURFELS
 #include "BlueSurfels/E_SurfelGenerator.h"
+#include "BlueSurfels/E_SurfelRenderer.h"
 #endif // MINSG_EXT_BLUE_SURFELS
 
 // [ext:ColorCubes]
@@ -148,6 +149,7 @@
 #include "ParticleSystem/E_ParticlePointEmitter.h"
 #include "ParticleSystem/E_ParticleBoxEmitter.h"
 #include "ParticleSystem/E_ParticleGravityAffector.h"
+#include "ParticleSystem/E_ParticleReflectionAffector.h"
 #include "ParticleSystem/E_ParticleFadeOutAffector.h"
 #include "ParticleSystem/E_ParticleAnimator.h"
 #endif // MINSG_EXT_PARTICLE
@@ -294,6 +296,7 @@ void init_ext(EScript::Namespace * /*globals*/,EScript::Namespace * lib) {
 	// [ext:BlueSurfels]
 	#ifdef MINSG_EXT_BLUE_SURFELS
 	BlueSurfels::E_SurfelGenerator::init(*lib);
+	BlueSurfels::E_SurfelRenderer::init(*lib);
 	#endif // MINSG_EXT_BLUE_SURFELS
 
 	// [ext:FancyStuff]
@@ -561,6 +564,7 @@ void init_ext(EScript::Namespace * /*globals*/,EScript::Namespace * lib) {
 	E_ParticleBoxEmitter::init(*lib);
 	E_ParticleGravityAffector::init(*lib);
 	E_ParticleFadeOutAffector::init(*lib);
+	E_ParticleReflectionAffector::init(*lib);
 	E_ParticleAnimator::init(*lib);
 #endif // MINSG_EXT_PARTICLE
 

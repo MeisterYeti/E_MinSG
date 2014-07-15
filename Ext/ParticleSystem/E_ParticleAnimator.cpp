@@ -18,6 +18,7 @@
 #include "../../ELibMinSG.h"
 
 #include <E_Geometry/E_Vec3.h>
+#include <EScript/Basics.h>
 
 using namespace MinSG;
 using E_Geometry::E_Vec3;
@@ -35,8 +36,7 @@ void E_ParticleAnimator::init(EScript::Namespace & lib) {
 	declareConstant(&lib,getClassName(),typeObject);
 
 	//! [ESMF] new MinSG.ParticleAnimator( particleSystem )
-	ES_CTOR(typeObject,1,1,E_Behavior::create(new ParticleAnimator(
-			**EScript::assertType<E_ParticleSystemNode>(rt,parameter[0]))))
+	ES_CTOR(typeObject,1,1,E_Behavior::create(new ParticleAnimator(parameter[0].to<ParticleSystemNode*>(rt))))
 
 	addFactory<MinSG::ParticleAnimator, E_ParticleAnimator>();
 }

@@ -59,6 +59,7 @@ add_library(E_MinSG
 	Ext/Behaviours/E_SimplePhysics2.cpp
 	Ext/Behaviours/E_TimedBehaviourDecorator.cpp
 	Ext/BlueSurfels/E_SurfelGenerator.cpp
+	Ext/BlueSurfels/E_SurfelRenderer.cpp
 	Ext/ColorCubes/E_ColorCube.cpp
 	Ext/ColorCubes/E_ColorCubeRenderer.cpp
 	Ext/D3Fact/E_ClientUnit.cpp
@@ -112,6 +113,7 @@ add_library(E_MinSG
 	Ext/ParticleSystem/E_ParticleFadeOutAffector.cpp
 	Ext/ParticleSystem/E_ParticleGravityAffector.cpp
 	Ext/ParticleSystem/E_ParticlePointEmitter.cpp
+	Ext/ParticleSystem/E_ParticleReflectionAffector.cpp
 	Ext/ParticleSystem/E_ParticleStates.cpp
 	Ext/ParticleSystem/E_ParticleSystemNode.cpp
 	Ext/Physics/E_PhysicWorld.cpp

@@ -10,6 +10,7 @@
 #include <E_MinSG/Core/E_FrameContext.h>
 
 #include <E_Rendering/Shader/E_Shader.h>
+#include <E_Rendering/Mesh/E_Mesh.h>
 
 #include <Util/IO/FileName.h>
 
@@ -108,7 +109,15 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 	//! [ESMF] self Preprocessor.setMaxComplexity(Number)
 	ES_MFUN(typeObject,Preprocessor,"setMaxComplexity",1,1,				(thisObj->setMaxComplexity(parameter[0].toUInt()),thisEObj))
 
+
 	ES_MFUN(typeObject,Preprocessor,"getStats",0,0,E_Util::E_Utils::convertGenericAttributeToEScriptObject(thisObj->getStats()))
+
+	ES_MFUNCTION(typeObject,Preprocessor,"generateMeshFromSurfels",2,2, {
+		//if(parameter.count() == 2)
+			return EScript::create(thisObj->generateMeshFromSurfels(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt)));
+		//return EScript::create(thisObj->generateMeshFromSurfels(parameter[0].to<FrameContext&>(rt),parameter[1].to<Rendering::Mesh*>(rt), parameter[2].toBool(false)));
+	})
+
 
 }
 }

@@ -18,6 +18,7 @@
 #include "../../ELibMinSG.h"
 
 #include <E_Geometry/E_Vec3.h>
+#include <EScript/Basics.h>
 
 using namespace MinSG;
 using E_Geometry::E_Vec3;
@@ -35,8 +36,7 @@ void E_ParticleFadeOutAffector::init(EScript::Namespace & lib) {
 	declareConstant(&lib,getClassName(),typeObject);
 
 	//! [ESMF] new MinSG.ParticleFadeOutAffector( particleSystem )
-	ES_CTOR(typeObject,1,1,E_Behavior::create(new ParticleFadeOutAffector(
-			**EScript::assertType<E_ParticleSystemNode>(rt,parameter[0]))))
+	ES_CTOR(typeObject,1,1,E_Behavior::create(new ParticleFadeOutAffector(parameter[0].to<ParticleSystemNode*>(rt))))
 
 	addFactory<MinSG::ParticleFadeOutAffector, E_ParticleFadeOutAffector>();
 }
