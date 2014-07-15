@@ -49,8 +49,8 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 
 	// void process(FrameContext& frameContext, Node* root)
 	//! [ESMF] self Preprocessor.process(p0,p1)
-	ES_MFUN(typeObject,Preprocessor,"process",2,3,
-				(thisObj->process(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt),parameter[2].toBool(true)),thisEObj))
+	ES_MFUN(typeObject,Preprocessor,"process",2,4,
+				(thisObj->process(parameter[0].to<FrameContext&>(rt),parameter[1].to<Node*>(rt),parameter[2].toBool(true),parameter[3].toBool(false)),thisEObj))
 
 	{
 		struct ScriptedFunction{
@@ -98,12 +98,18 @@ void E_Preprocessor::init(EScript::Namespace & lib) {
 
 	//! [ESMF] self Preprocessor.setMaxAbsSurfels(Number)
 	ES_MFUN(typeObject,Preprocessor,"setMaxAbsSurfels",1,1,				(thisObj->setMaxAbsSurfels(parameter[0].toUInt()),thisEObj))
+	
+	//! [ESMF] self Preprocessor.setVerticalResolution(Number)
+	ES_MFUN(typeObject,Preprocessor,"setVerticalResolution",1,1,				(thisObj->setVerticalResolution(parameter[0].toFloat()),thisEObj))
 
 	//! [ESMF] self Preprocessor.setReusalRate(Number)
 	ES_MFUN(typeObject,Preprocessor,"setReusalRate",1,1,					(thisObj->setReusalRate(parameter[0].toFloat()),thisEObj))
 
 	//! [ESMF] self Preprocessor.setMaxComplexity(Number)
 	ES_MFUN(typeObject,Preprocessor,"setMaxComplexity",1,1,				(thisObj->setMaxComplexity(parameter[0].toUInt()),thisEObj))
+
+	ES_MFUN(typeObject,Preprocessor,"getStats",0,0,E_Util::E_Utils::convertGenericAttributeToEScriptObject(thisObj->getStats()))
+
 }
 }
 
